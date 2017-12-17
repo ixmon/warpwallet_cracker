@@ -11,6 +11,11 @@ $ go build warpwallet_cracker.go
 $ ./run.sh 
 Using address "1MkupVKiCik9iyfnLrJoZLx9RH4rkF3hnA" and salt "a@b.c"
 Tried 4 passphrases in 2.269448485s [last passphrase: 2zZM3L1C]
+
+You may also supply a 3rd parameter directly to the warpwallet executable to specify a single passphrase to try
+warpwallet_cracker 1MkupVKiCik9iyfnLrJoZLx9RH4rkF3hnA a@b.c nakamoto
+This will crack the address 1MkupVKiCik9iyfnLrJoZLx9RH4rkF3hnA using the salt a@b.c with the passphrase nakamoto.
+Omitting this parameter will cause the cracker to try random passphrases 8 characters in length built upon lower and upper case alphanumerics.
 ```
 
 # Performance
