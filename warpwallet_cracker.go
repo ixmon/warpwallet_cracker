@@ -33,13 +33,13 @@ func main () {
 
 	if len(os.Args) >= 2 {
 		address = os.Args[1]
-		if len(os.Args) == 3 {
+		if len(os.Args) >= 3 {
 			saltValue = os.Args[2]
 		} else {
 			saltValue = "";
 		}
 	} else {
-		fmt.Printf("Usage: %s [Address] [Salt - optional]\n\n", os.Args[0])
+		fmt.Printf("Usage: %s [Address] [Salt - optional] [passphrase - optional]\n\n", os.Args[0])
 		os.Exit(0)
 	}
 
@@ -47,8 +47,13 @@ func main () {
 
 	tries := 0
 	start := time.Now()
+	passphraseValue := "";
 	for {
-		passphraseValue := random(r, 8)
+		if len(os.Args) == 4 {
+			passphraseValue = os.Args[3];
+		} else {
+			passphraseValue = random(r, 8);
+		}
 		result := bruteforce(passphraseValue, saltValue, address);
 		if result != "" {
 			fmt.Printf("Found! Passphrase %s\n", passphraseValue)
@@ -58,6 +63,11 @@ func main () {
       timeElapsed := time.Since(start)
       hashRate := float64(tries) / (timeElapsed.Seconds())
 			fmt.Printf("\rspeed=%.2fh/s, last=%s, tries=%d, elapsed=%s", hashRate, passphraseValue, tries, timeElapsed)
+		}
+
+		if len(os.Args) == 4 {
+			fmt.Printf("\nInvalid Passphrase %s\n", passphraseValue)
+			os.Exit(0)
 		}
 	}
 }
